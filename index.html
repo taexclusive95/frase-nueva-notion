@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Frase – Holo Lila Suave</title>
+<style>
+  body {
+    margin:0; height:100vh; display:flex; align-items:center; justify-content:center;
+    background: conic-gradient(from 0deg, #f0eaff, #dcd0ff, #fbe7ff, #eaf6ff, #eafff6, #ffeef8, #dcd0ff, #f0eaff);
+    background-size: 200% 200%;
+    animation: spin 40s linear infinite;
+    font-family: "Inter", sans-serif;
+  }
+  .pill {
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,.28);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-weight:600;
+    font-size:1.2rem;
+    color:#241a39;
+    box-shadow: 0 12px 32px rgba(36,26,57,.1);
+  }
+  @keyframes spin {
+    from { background-position: 0% 50%; }
+    to   { background-position: 100% 50%; }
+  }
+</style>
+</head>
+<body>
+  <div class="pill">✨ Resuelve lo de hoy, recupera con calma lo de ayer y confía en que mañana tendrá su momento.</div>
+</body>
+</html>
