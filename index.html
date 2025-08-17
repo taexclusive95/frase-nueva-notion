@@ -1,34 +1,105 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<title>Frase – Holo Lila Suave</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Frases – Holo Lila Suave</title>
+
+<!-- Quicksand (Google Fonts) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-  body {
-    margin:0; height:100vh; display:flex; align-items:center; justify-content:center;
-    background: conic-gradient(from 0deg, #f0eaff, #dcd0ff, #fbe7ff, #eaf6ff, #eafff6, #ffeef8, #dcd0ff, #f0eaff);
-    background-size: 200% 200%;
-    animation: spin 40s linear infinite;
-    font-family: "Inter", sans-serif;
+  :root{
+    --ink:#241a39;
+    --pill:rgba(255,255,255,.28);
+    --shadow:0 8px 20px rgba(36,26,57,.08);
+    --a:#f0eaff; --b:#dcd0ff; --c:#fbe7ff; --d:#eaf6ff; --e:#eafff6; --f:#ffeef8;
   }
-  .pill {
-    padding: 1rem 1.5rem;
-    border-radius: 20px;
-    background: rgba(255,255,255,.28);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    font-weight:600;
-    font-size:1.2rem;
-    color:#241a39;
-    box-shadow: 0 12px 32px rgba(36,26,57,.1);
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; overflow:hidden;
+    font-family: "Quicksand", Arial, sans-serif;
+    font-weight:400;
+    color:var(--ink); background:#faf7ff;
   }
-  @keyframes spin {
-    from { background-position: 0% 50%; }
-    to   { background-position: 100% 50%; }
+
+  .bg{position:fixed; inset:0; overflow:hidden; z-index:0}
+  .layer-conic{
+    position:absolute; inset:-45% -45%;
+    background: conic-gradient(from 0deg, var(--a), var(--b), var(--c), var(--d), var(--e), var(--f), var(--b), var(--a));
+    filter: blur(50px) saturate(105%) brightness(103%);
+    animation: spin 42s linear infinite; transform-origin: 50% 50%; opacity:.9;
   }
+  .layer-blobs{
+    position:absolute; inset:-20%;
+    background:
+      radial-gradient(40% 38% at 18% 28%, rgba(220,208,255,.55), transparent 60%),
+      radial-gradient(34% 42% at 78% 22%, rgba(250,240,255,.55), transparent 68%),
+      radial-gradient(32% 40% at 70% 78%, rgba(234,246,255,.50), transparent 64%),
+      radial-gradient(28% 36% at 14% 80%, rgba(255,238,248,.55), transparent 70%);
+    filter: blur(34px); mix-blend-mode: screen;
+    animation: float 28s ease-in-out infinite alternate;
+  }
+  @keyframes spin{from{transform:rotate(0) scale(1.04)}to{transform:rotate(360deg) scale(1.04)}}
+  @keyframes float{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-3%,2%,0) scale(1.01)}}
+
+  .wrap{position:relative; z-index:2; height:100%; width:100%; display:grid; place-items:center; padding:6vmin;}
+  .pill{
+    display:inline-flex; align-items:center; gap:.65rem;
+    padding: clamp(.7rem, 2vmin, 1rem) clamp(1rem, 2.5vmin, 1.4rem);
+    background: var(--pill); border-radius: 18px;
+    backdrop-filter: blur(10px) saturate(115%); -webkit-backdrop-filter: blur(10px) saturate(115%);
+    box-shadow: var(--shadow); max-width: min(820px, 92vw); text-align:left;
+  }
+  .emoji{font-size:1rem; line-height:1}
+  .text{
+    font-weight:500;
+    font-size: clamp(.9rem, 2vmin, 1rem);
+    line-height:1.5;
+    letter-spacing:.2px;
+    opacity:0; transition: opacity .9s ease;
+  }
+  .text.show{ opacity:1; }
 </style>
 </head>
 <body>
-  <div class="pill">✨ Resuelve lo de hoy, recupera con calma lo de ayer y confía en que mañana tendrá su momento.</div>
+  <div class="bg" aria-hidden="true">
+    <div class="layer-conic"></div>
+    <div class="layer-blobs"></div>
+  </div>
+
+  <main class="wrap">
+    <div class="pill" role="note" aria-live="polite" aria-atomic="true">
+      <span class="emoji" aria-hidden="true">✨</span>
+      <span id="quote" class="text">Resuelve lo de hoy, recupera con calma lo de ayer y confía en que mañana tendrá su momento.</span>
+    </div>
+  </main>
+
+<script>
+  const PHRASES = [
+    "Resuelve lo de hoy, recupera con calma lo de ayer y confía en que mañana tendrá su momento.",
+    "Lo importante no es hacer más, sino hacer lo correcto en el momento correcto.",
+    "En medio de la dificultad reside la oportunidad.",
+    "Nada es casualidad, todo te está enseñando algo.",
+    "La constancia vale más que la perfección.",
+    "Haz más de eso que te hace feliz."
+  ];
+  const INTERVAL_MS = 300000; // 5 min
+  const quoteEl = document.getElementById("quote");
+  let idx = 0;
+  function showPhrase(i) {
+    quoteEl.classList.remove("show");
+    setTimeout(() => {
+      quoteEl.textContent = PHRASES[i % PHRASES.length];
+      quoteEl.classList.add("show");
+    }, 280);
+  }
+  showPhrase(idx++);
+  setInterval(() => showPhrase(idx++), INTERVAL_MS);
+</script>
 </body>
 </html>
